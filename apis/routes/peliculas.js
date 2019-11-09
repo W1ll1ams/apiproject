@@ -2,9 +2,12 @@ var express = require('express');
 
 var router = express.Router();
 
+var mongo_Pelicula = require('../controllers/Peliculas.controller');
+
 /* GET users listing. */
 router.get('/', async (req, res, next) => {
-    const actualPeliculas = await RW.openfile();
+    //const actualPeliculas = await RW.openfile();
+    const actualPeliculas = await mongo_Pelicula.getPeliculas();
     return res.status(200).json(actualPeliculas);
 });
 
@@ -12,16 +15,16 @@ router.get('/', async (req, res, next) => {
 router.post('/add', async (req, res) => {
     try {
         const { pelicula } = req.body;
-        const actualPeliculas = await RW.openfile();
+        //const actualPeliculas = await RW.openfile();
+
         if (!pelicula) {
            return res.status(500).json({error:"pelicula invalida"});
         }
 
-        actualPeliculas.push(pelicula);
+        const actualPeliculas = mongo_Pelicula.insertarPelicula(pelicula);
+        
 
-        await RW.savefile(actualPeliculas);
-
-        return res.status(201).end();
+        return res.status(201).json(actualPeliculas);
     } catch (error) {
         console.log('Error :' + error);
     }
