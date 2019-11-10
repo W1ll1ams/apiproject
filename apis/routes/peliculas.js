@@ -6,8 +6,7 @@ var mongo_Pelicula = require('../controllers/Peliculas.controller');
 
 /* GET users listing. */
 router.get('/', async (req, res, next) => {
-    //const actualPeliculas = await RW.openfile();
-    const actualPeliculas = await mongo_Pelicula.getPeliculas();
+    const actualPeliculas = await mongo_Pelicula.obtenerPeliculas();
     return res.status(200).json(actualPeliculas);
 });
 
@@ -15,7 +14,6 @@ router.get('/', async (req, res, next) => {
 router.post('/add', async (req, res) => {
     try {
         const { pelicula } = req.body;
-        //const actualPeliculas = await RW.openfile();
 
         if (!pelicula) {
            return res.status(500).json({error:"pelicula invalida"});
@@ -33,21 +31,30 @@ router.post('/add', async (req, res) => {
 router.put('/update', async (req, res) => {
     try {
         const { pelicula } = req.body;
-        const actualPeliculas = await RW.openfile();
         if (!pelicula) {
-            return res.status(500).json({error:"pelicula invalida"});
+           return res.status(500).json({error:"pelicula invalida"});
         }
-
-        this.state.data.filter(pelicula => pelicula.id === movie)[0];
-
-        actualPeliculas.push(pelicula);
-
-        await RW.savefile(actualPeliculas);
-
-        return res.status(201).end();
+        const actualPeliculas = mongo_Pelicula.modificarPelicula(pelicula);
+        return res.status(201).json(actualPeliculas);
     } catch (error) {
         console.log('Error :' + error);
     }
+});
+
+router.delete('/del/:identificador', async (req, res) => {
+    try {
+        const { identificador } = req.params;
+        const actualPeliculas = mongo_Pelicula.eliminarPelicula(identificador);
+        return res.status(201).json(actualPeliculas);
+    } catch (error) {
+        console.log('Error :' + error);
+    }
+});
+
+router.get('/:identificador', async (req, res, next) => {
+    const { identificador } = req.params;
+    const actualPeliculas = await mongo_Pelicula.obtenerPelicula(identificador);
+    return res.status(200).json(actualPeliculas);
 });
 
 module.exports = router;

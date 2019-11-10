@@ -1,8 +1,7 @@
-// Cargamos los modelos para usarlos posteriormente
+
 var Pelicula = require('../models/peliculas');
 
-// Conseguir datos de un usuario
-exports.getPeliculas =  async function getTodasPeliculas(){
+exports.obtenerPeliculas =  async function getTodasPeliculas(){
 
     return Pelicula.find()
         .then( peliculas => {
@@ -10,7 +9,6 @@ exports.getPeliculas =  async function getTodasPeliculas(){
         })
 }
 
-// Conseguir datos de un usuario
 exports.insertarPelicula =  async function addPeliculas(oPelicula){
     return Pelicula.create(
         oPelicula)
@@ -20,6 +18,28 @@ exports.insertarPelicula =  async function addPeliculas(oPelicula){
         })
 }
 
+exports.modificarPelicula = async function updatePeliculas(oPelicula) {
+    return Pelicula.findByIdAndUpdate( oPelicula._id, { ...oPelicula }, (error, data) => {
+        if(error){
+            throw error;
+        } else {
+            return data
+        }
+    })
+}
 
+exports.eliminarPelicula = async function deletePeliculas(id) {
+    return Pelicula.findByIdAndDelete( id, (error, data) => {
+        if(error){
+            throw error;
+        } else {
+        return data
+        }
+    });
+}
+
+exports.obtenerPelicula =  async function getPelicula(id){
+    return Pelicula.find( { _id: id }, null, { limit: 1 })
+}
 
 
