@@ -28,7 +28,7 @@ app.use('/users', usersRouter);
 
 
 // Usamos el método connect para conectarnos a nuestra base de datos
-mongoose.connect('mongodb://localhost:27017/peliculas', { useNewUrlParser: true, useUnifiedTopology: true } )
+mongoose.connect('mongodb://mongo:27017/peliculas', { useNewUrlParser: true, useUnifiedTopology: true } )
     .then(() => {
         // Cuando se realiza la conexión, lanzamos este mensaje por consola
         console.log("La conexión a la base de datos curso_mean_social se ha realizado correctamente")
