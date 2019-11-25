@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongo_Pelicula = require('../controllers/Peliculas.controller');
-let redis_url = 'redis';
+const redis_url = 'localhost';
 var client = require('redis').createClient(6379, redis_url);
 
 /* GET users listing. */

@@ -1,18 +1,19 @@
-version: '2.2'
+version: '3'
 services:
   mongo:
     image: mongo
     ports: 
       - "27017:27017"
   node:
-    image: peliculasbe
+    image: w1lliams/peliculasbe
     ports:
-      - "4000:4000"    
-    links:
-      - mongo
-      - redis
-    depends_on:
-      - mongo
+      - "4000:4000"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: peliculasbe
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: node
   redis:
     image: redis
     ports:
