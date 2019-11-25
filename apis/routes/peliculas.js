@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
             }
             else{
                 const actualPeliculas = await mongo_Pelicula.obtenerPeliculas();
-                client.setex(llavePelicula,35,JSON.stringify(actualPeliculas));
+                client.setex(llavePelicula,10,JSON.stringify(actualPeliculas));
                 return res.status(200).json(actualPeliculas);
             }
         })
@@ -83,7 +83,7 @@ router.get('/:identificador', async (req, res, next) => {
             }
             else{ 
                 const actualPeliculas = await mongo_Pelicula.obtenerPelicula(identificador);
-                client.setex(identificador,35,JSON.stringify(actualPeliculas));
+                client.setex(identificador,10,JSON.stringify(actualPeliculas));
                 return res.status(200).json(actualPeliculas);
             }
         })
